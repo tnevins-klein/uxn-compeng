@@ -1,0 +1,106 @@
+( hello-keyboard.tal )
+
+( devices )
+|00 @System [ &vector $2 &pad $6 &r $2 &g $2 &b $2 ]
+|10 @Console &vector $2 &read $1 &pad $5 &write $1 &error $1
+|20 @Screen [ &vector $2 &width $2 &height $2 &pad $2 &x $2 &y $2 &addr $2 &pixel $1 &sprite $1 ]
+|80 @Controller [ &vector $2 &button $1 &key $1 ]
+
+%NEXT_SPRITE {
+    .Screen/addr DEI2 #0016 ADD2 .Screen/addr DEO2
+}
+
+%SPRITE_ROW {
+    #08
+    @row
+        #81 .Screen/sprite DEO 
+        NEXT_SPRITE
+        .Screen/x DEI2 #0008 ADD2 .Screen/x DEO2
+        #01 SUB DUP #00 NEQ ,row JCN POP
+}
+
+|0100
+    #2ce9 .System/r DEO2
+    #01c0 .System/g DEO2
+    #2ce5 .System/b DEO2
+
+    ;borzoi .Screen/addr DEO2
+    
+    #08
+    @col
+        .Screen/x DEI2
+        
+        SPRITE_ROW
+    
+        .Screen/x DEO2
+
+        .Screen/y DEI2 #0008 ADD2 .Screen/y DEO2
+        #01 SUB DUP #00 NEQ ,col JCN
+
+
+@borzoi [
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    00 00 01 01 01 00 01 00 00 00 00 00 00 00 00 00
+    00 00 f0 e0 81 00 00 00 00 00 10 7e fe ff ff ff
+    00 00 00 04 e0 c0 00 00 00 00 00 00 1f ff ff ff
+    00 00 00 00 c2 00 00 00 00 00 00 18 3d ff ff ff
+    00 00 00 00 00 10 20 20 00 00 00 00 60 e0 c0 c0
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    00 00 00 00 00 08 08 00 03 07 07 07 07 07 07 07
+    00 00 00 00 00 00 04 01 ff ff ff ff ff ff f9 f8
+    00 00 00 00 00 80 40 c0 ff ff ff ff ff ff ff 7f
+    00 00 00 00 00 00 20 10 ff ff ff ff ff ff df 8f
+    08 10 02 02 02 00 02 02 f0 e0 fc fe fc fc fc fc
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    08 00 04 02 00 00 00 00 07 07 03 01 01 01 01 01
+    08 05 0f 03 00 00 00 00 f0 f8 f7 fd ff ff ff ff
+    e0 c3 e9 c0 90 40 00 50 7f 7e ff 7f ff ff ff ff
+    1d a2 04 02 05 01 08 05 02 1d fb fd fa fe f7 fa
+    00 00 01 01 00 00 80 00 fe fe fe fe ff ff 7f ff
+    00 00 00 00 00 00 11 00 00 00 00 00 c0 c0 e0 ff
+    00 00 00 00 00 80 30 00 00 00 00 00 00 00 c0 ff
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    02 04 0c 00 00 00 00 00 01 03 07 0f 1f 1f 3f 3f
+    00 01 00 04 04 00 00 00 ff ff ff fb fb ff ff ff
+    00 20 10 40 38 20 00 40 ff ff ff ff ef ff ff ff
+    0b 0a 0e 0b 14 1a 34 3a f4 f5 f1 f4 eb e5 cb c5
+    00 80 80 00 80 40 20 80 ff 7f 7f ff 7f bf df 7f
+    00 00 00 00 00 00 00 00 ff ff ff ff ff ff ff ff
+    00 00 00 00 00 00 00 00 ff ff ff ff ff ff ff ff
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    00 20 00 10 00 08 0c 08 3f 1f 1f 0f 0f 07 07 07
+    00 00 00 00 00 00 00 00 ff ff ff ff ff ff ff ff
+    30 7c 5c d4 29 06 86 7e df c7 87 07 02 01 01 85
+    7a 7a f5 f5 6a d5 aa a9 85 85 0a 0a 95 2a 55 56
+    28 90 40 a8 92 a5 8a 50 d7 6f bf 57 6d 5a 75 af
+    00 00 00 02 45 08 04 12 ff ff ff fd ba f7 fb ed
+    00 00 a0 a0 40 a0 80 52 ff ff 5f 5f bf 5f 7f ad
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    0c 00 00 02 00 01 01 00 03 03 01 01 01 00 00 01
+    00 00 00 00 00 00 00 00 ff ff ff ff ff ff ff ff
+    3a 0a 15 0a 08 04 00 01 e5 f5 ea f5 f7 fb ff fe
+    75 92 34 52 aa b7 46 33 8a 6d cb ad 55 48 b9 cc
+    0d a8 13 88 22 40 90 4a f2 57 ec 77 dd bf 6f b5
+    00 42 01 00 00 a0 00 00 ff bd fe ff ff 5f ff ff
+    00 00 20 00 00 00 00 00 ff ff df ff ff ff ff ff
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    00 01 01 01 00 00 00 00 01 00 00 00 00 00 00 00
+    00 00 00 00 00 00 00 00 ff ff ff ff ff ff ff ff
+    00 00 00 00 00 00 00 00 ff ff ff ff ff ff ff ff
+    15 15 21 15 02 2a 14 1a ea ea de ea fd d5 eb e5
+    a0 50 84 d0 a0 50 a4 14 5f af 7b 2f 5f af 5b eb
+    20 00 40 00 20 00 40 08 df ff bf ff df ff bf f7
+    00 00 00 02 00 00 00 02 ff ff ff fd ff ff ff fd
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    80 00 80 00 00 00 00 00 7f 7f 7f 7f 7f 7f 7f 7f
+    00 00 00 02 02 00 02 00 ff ff ff fd fd ff fd ff
+    19 34 1a 5a a4 aa 64 aa e6 cb e5 a5 5b 55 9b 55
+    59 8c 55 d4 ad d4 aa bd a6 73 aa 2b 52 2b 55 42
+    20 20 10 30 00 c1 08 c0 df df ef df ff 7f ff bf
+    00 00 02 01 00 02 10 00 ff ff fd fe ff fd ff ff
+]
